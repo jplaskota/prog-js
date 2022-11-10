@@ -1,64 +1,52 @@
-let sum = document.getElementById("rsum");
-let avg = document.getElementById("ravg");
-let min = document.getElementById("rmin");
-let max = document.getElementById("rmax");
+const sum = document.getElementById("rsum");
+const avg = document.getElementById("ravg");
+const min = document.getElementById("rmin");
+const max = document.getElementById("rmax");
 
-let a = document.getElementById("input1");
-let b = document.getElementById("input2");
-let c = document.getElementById("input3");
-let d = document.getElementById("input4");
+const data = [];
 
-let error = document.getElementById("error");
+const error = document.getElementById("error");
 
-let buttons = Array.from(document.getElementsByClassName("btn"));
+const clear = document.getElementById("clearBtn");
 
-buttons.map((button) => {
-  button.addEventListener("click", (e) => {
-    switch (e.target.innerText) {
-      case "Clear":
-        Clear();
-        break;
+const input = Array.from(document.querySelectorAll("input"));
 
-      case "Calculate":
-        Calculate();
-        break;
+clear.addEventListener("click", Clear);
+
+input.map((el) =>
+  el.addEventListener("input", (e) => {
+    data.length = 0;
+    input.forEach((el) => {
+      if (!isNaN(parseInt(el.value))) {
+        data.push(parseInt(el.value));
+      }
+    });
+    Calculate(data);
+  })
+);
+
+function Calculate(Array) {
+  try {
+    if (Array.length > 0) {
+      sum.innerText = Array.reduce((a, b) => a + b);
+      avg.innerText = Array.reduce((a, b) => a + b) / Array.length;
+      min.innerText = Math.min(...Array);
+      max.innerText = Math.max(...Array);
+    } else {
+      Clear();
     }
-  });
-});
+  } catch (e) {
+    error.innerText = e.message;
+    console.log(e);
+  }
+}
 
 function Clear() {
-  a.value = "";
-  b.value = "";
-  c.value = "";
-  d.value = "";
+  input.forEach((el) => {
+    el.value = "";
+  });
   sum.innerText = "...";
   avg.innerText = "...";
   min.innerText = "...";
   max.innerText = "...";
-}
-
-function Calculate() {
-  try {
-    error.innerText = "";
-
-    // if (a.value === "" || b.value === "" || c.value === "" || d.value === "") {
-    //   throw new Error("Incorrect data");
-    // }
-
-    const num_a = parseInt(a.value);
-    const num_b = parseInt(b.value);
-    const num_c = parseInt(c.value);
-    const num_d = parseInt(d.value);
-
-    if (isNaN(num_a) || isNaN(num_b) || isNaN(num_c) || isNaN(num_d)) {
-      throw new Error("Incorrect data");
-    }
-
-    sum.innerText = num_a + num_b + num_c + num_d;
-    avg.innerText = (num_a + num_b + num_c + num_d) / 4;
-    min.innerText = Math.min(num_a, num_b, num_c, num_d);
-    max.innerText = Math.max(num_a, num_b, num_c, num_d);
-  } catch (e) {
-    error.innerText = e.message;
-  }
 }
