@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Rozgrzewka</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="calculator">
+        <div class="inputs_container">
+          <input type="text" class="input" id="input1" placeholder="0" />
+          <input type="text" class="input" id="input2" placeholder="0" />
+          <input type="text" class="input" id="input3" placeholder="0" />
+          <input type="text" class="input" id="input4" placeholder="0" />
+        </div>
+        <div class="btn_container">
+          <button class="btn">Clear</button>
+          <button class="btn">Calculate</button>
+        </div>
+        <p id="error"></p>
+      </div>
+      <div class="results">
+        <div class="box">
+          <p>Sum</p>
+          <p id="rsum">...</p>
+        </div>
+        <div class="box">
+          <p>Avg</p>
+          <p id="ravg">...</p>
+        </div>
+        <div class="box">
+          <p>Min</p>
+          <p id="rmin">...</p>
+        </div>
+        <div class="box">
+          <p>Max</p>
+          <p id="rmax">...</p>
+        </div>
+      </div>
+    </div>
+    <script src="main.js"></script>
+  </body>
+</html>
