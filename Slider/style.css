@@ -11,6 +11,15 @@
   margin: auto;
 }
 
+.btn {
+  width: 100px;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.493);
+  color: white;
+  border: 0;
+  /* position: absolute; */
+}
+
 #slider {
   display: flex;
   width: 100%;
