@@ -9,9 +9,20 @@
   </head>
   <body>
     <main class="container">
-      <button class="btn">prev</button>
-      <div id="slider"></div>
-      <button class="btn">next</button>
+      <div class="btn-container prev">
+        <img class="icon" src="./icons/arrow.svg" />
+        <button class="btn" id="prev"></button>
+      </div>
+      <div id="slide-container"></div>
+      <div class="btn-container next">
+        <img
+          class="icon"
+          src="./icons/arrow.svg"
+          style="transform: rotate(180deg)"
+        />
+        <button class="btn" id="next"></button>
+      </div>
+      <nav id="dots-container"></nav>
     </main>
     <script src="main.js"></script>
   </body>

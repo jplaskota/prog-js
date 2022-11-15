@@ -7,26 +7,42 @@ const imageArr = [
 ];
 
 const btn = Array.from(document.getElementsByClassName("btn"));
-const slider = document.getElementById("slider");
-const img = document.createElement("img");
+const slider = document.getElementById("slide-container");
+const dots = document.getElementById("dots-container");
 
 let counter = 0;
 
-document.onload = Render(counter);
+document.onload = Onload(counter);
+
+function Onload(counter) {
+  for (let i = 0; i < imageArr.length; i++) {
+    const slide = document.createElement("div");
+    slide.className = "slide";
+    slider.appendChild(slide);
+
+    const img = document.createElement("img");
+    img.src = imageArr[i];
+    slide.appendChild(img);
+  }
+
+  Render(counter);
+}
 
 btn.map((el) => {
   el.addEventListener("click", (e) => {
-    switch (e.target.innerText) {
+    switch (e.target.id) {
       case "prev":
-        if (counter > 0) {
-          counter--;
+        counter--;
+        if (counter < 0) {
+          counter = imageArr.length - 1;
         }
         Render(counter);
         break;
 
       case "next":
-        if (counter < imageArr.length - 1) {
-          counter++;
+        counter++;
+        if (counter > imageArr.length - 1) {
+          counter = 0;
         }
         Render(counter);
         break;
@@ -35,7 +51,32 @@ btn.map((el) => {
 });
 
 function Render(counter) {
-  console.log("id " + counter);
-  img.src = imageArr[counter];
-  slider.appendChild(img);
+  ImgRender(counter);
+  DotsRender(counter);
+}
+
+function ImgRender(counter) {
+  const slides = Array.from(document.getElementsByClassName("slide"));
+  slides.map((el) => {
+    el.style.transform = `translateX(-${counter * 100}%)`;
+  });
+}
+
+function DotsRender(counter) {
+  dots.innerHTML = "";
+  for (let i = 0; i < imageArr.length; i++) {
+    const dot = document.createElement("div");
+    if (i === counter) {
+      dot.className = "active-dot";
+    } else {
+      dot.className = "dot";
+    }
+    dots.appendChild(dot);
+    dot.addEventListener("click", DotClick.bind(null, i), false);
+  }
+}
+
+function DotClick(num) {
+  counter = num;
+  Render(counter);
 }
