@@ -8,12 +8,12 @@
     <title>Slider</title>
   </head>
   <body>
-    <main class="container">
+    <main class="container" data-auto>
       <div class="btn-container prev">
         <img class="icon" src="./icons/arrow.svg" />
         <button class="btn" id="prev"></button>
       </div>
-      <div id="slide-container"></div>
+      <div id="slide-container" data-pause></div>
       <div class="btn-container next">
         <img
           class="icon"
@@ -22,6 +22,9 @@
         />
         <button class="btn" id="next"></button>
       </div>
+      <nav id="settings">
+        <img src="./icons/pause.svg" alt="" />
+      </nav>
       <nav id="dots-container"></nav>
     </main>
     <script src="main.js"></script>
