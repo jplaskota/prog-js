@@ -45,8 +45,8 @@ function Clear() {
   input.forEach((el) => {
     el.value = "";
   });
-  sum.innerText = "...";
-  avg.innerText = "...";
-  min.innerText = "...";
-  max.innerText = "...";
+  sum.innerText = "";
+  avg.innerText = "";
+  min.innerText = "";
+  max.innerText = "";
 }
