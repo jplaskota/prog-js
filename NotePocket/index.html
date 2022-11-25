@@ -10,34 +10,31 @@
   <body>
     <div class="container">
       <header>
-        <div class="bar-title">
-          <!-- TODO tag on the right side of title -->
-          <div
-            contenteditable="true"
-            aria-multiline="true"
-            placeholder="Title"
-            class="input new-title"
-          ></div>
-        </div>
-        <div class="bar-content">
-          <div
-            contenteditable="true"
-            aria-multiline="true"
-            placeholder="Take a note..."
-            class="input new-content"
-          ></div>
-        </div>
+        <!-- TODO tag ( list of tag ? idk ) on the right side of title -->
+        <div
+          contenteditable="true"
+          aria-multiline="true"
+          placeholder="Title"
+          class="input new-title"
+          data-title
+        ></div>
+        <div
+          contenteditable="true"
+          aria-multiline="true"
+          placeholder="Take a note..."
+          class="input new-content"
+          data-content
+        ></div>
         <nav class="navbar">
-          <button class="new-btn new-btn-save">Save</button>
-          <button class="new-btn new-btn-close">Close</button>
+          <button class="new-btn">Save</button>
+          <button class="new-btn">Close</button>
         </nav>
       </header>
-      <main> <!-- TODO tag icon in menu-->
+      <main id="main">
+        <!-- TODO tag name ect in menu-->
         <div class="note">
-          <div>
-            <div class="title">n1</div>
-            <div class="content">Lorem, ipsum dolor.</div>
-          </div>
+          <div class="title">n1</div>
+          <div class="content">Lorem, ipsum dolor.</div>
           <nav>
             <div class="menu">
               <button id="color">
@@ -77,186 +74,6 @@
         <div class="note">
           <div>
             <div class="title">n3</div>
-            <div class="content">Lorem, ipsum dolor.</div>
-          </div>
-          <nav>
-            <div class="menu">
-              <button id="color">
-                <img src="./icons/color.svg" />
-              </button>
-              <button id="pin">
-                <img src="./icons/pin.svg" />
-              </button>
-            </div>
-            <button id="delete">
-              <img src="./icons/delete.svg" />
-            </button>
-          </nav>
-        </div>
-        <div class="note">
-          <div>
-            <div class="title">n4</div>
-            <div class="content">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Id ex
-              libero modi perferendis laborum optio?
-            </div>
-          </div>
-          <nav>
-            <div class="menu">
-              <button id="color">
-                <img src="./icons/color.svg" />
-              </button>
-              <button id="pin">
-                <img src="./icons/pin.svg" />
-              </button>
-            </div>
-            <button id="delete">
-              <img src="./icons/delete.svg" />
-            </button>
-          </nav>
-        </div>
-        <div class="note">
-          <div>
-            <div class="title">n5</div>
-            <div class="content">Lorem, ipsum dolor.</div>
-          </div>
-          <nav>
-            <div class="menu">
-              <button id="color">
-                <img src="./icons/color.svg" />
-              </button>
-              <button id="pin">
-                <img src="./icons/pin.svg" />
-              </button>
-            </div>
-            <button id="delete">
-              <img src="./icons/delete.svg" />
-            </button>
-          </nav>
-        </div>
-        <div class="note">
-          <div>
-            <div class="title">n6</div>
-            <div class="content">Lorem, ipsum dolor.</div>
-          </div>
-          <nav>
-            <div class="menu">
-              <button id="color">
-                <img src="./icons/color.svg" />
-              </button>
-              <button id="pin">
-                <img src="./icons/pin.svg" />
-              </button>
-            </div>
-            <button id="delete">
-              <img src="./icons/delete.svg" />
-            </button>
-          </nav>
-        </div>
-        <div class="note">
-          <div>
-            <div class="title">n7</div>
-            <div class="content">Lorem, ipsum dolor.</div>
-          </div>
-          <nav>
-            <div class="menu">
-              <button id="color">
-                <img src="./icons/color.svg" />
-              </button>
-              <button id="pin">
-                <img src="./icons/pin.svg" />
-              </button>
-            </div>
-            <button id="delete">
-              <img src="./icons/delete.svg" />
-            </button>
-          </nav>
-        </div>
-        <div class="note">
-          <div>
-            <div class="title">n8</div>
-            <div class="content">
-              Lorem ipsum dolor sit amet consectetur adipisicing.
-            </div>
-          </div>
-          <nav>
-            <div class="menu">
-              <button id="color">
-                <img src="./icons/color.svg" />
-              </button>
-              <button id="pin">
-                <img src="./icons/pin.svg" />
-              </button>
-            </div>
-            <button id="delete">
-              <img src="./icons/delete.svg" />
-            </button>
-          </nav>
-        </div>
-        <div class="note">
-          <div>
-            <div class="title">n9</div>
-            <div class="content">Lorem, ipsum dolor.</div>
-          </div>
-          <nav>
-            <div class="menu">
-              <button id="color">
-                <img src="./icons/color.svg" />
-              </button>
-              <button id="pin">
-                <img src="./icons/pin.svg" />
-              </button>
-            </div>
-            <button id="delete">
-              <img src="./icons/delete.svg" />
-            </button>
-          </nav>
-        </div>
-        <div class="note">
-          <div>
-            <div class="title">n10</div>
-            <div class="content">Lorem, ipsum dolor.</div>
-          </div>
-          <nav>
-            <div class="menu">
-              <button id="color">
-                <img src="./icons/color.svg" />
-              </button>
-              <button id="pin">
-                <img src="./icons/pin.svg" />
-              </button>
-            </div>
-            <button id="delete">
-              <img src="./icons/delete.svg" />
-            </button>
-          </nav>
-        </div>
-        <div class="note">
-          <div>
-            <div class="title">n11</div>
-            <div class="content">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corporis
-              dolor enim ullam illum quidem reiciendis tenetur voluptate, fugit
-              cum quis.
-            </div>
-          </div>
-          <nav>
-            <div class="menu">
-              <button id="color">
-                <img src="./icons/color.svg" />
-              </button>
-              <button id="pin">
-                <img src="./icons/pin.svg" />
-              </button>
-            </div>
-            <button id="delete">
-              <img src="./icons/delete.svg" />
-            </button>
-          </nav>
-        </div>
-        <div class="note">
-          <div>
-            <div class="title">n12</div>
             <div class="content">Lorem, ipsum dolor.</div>
           </div>
           <nav>
