@@ -4,6 +4,8 @@ let notesContainer = document.getElementById("main");
 
 const newBtn = Array.from(document.getElementsByClassName("new-btn"));
 
+const notes = JSON.parse(localStorage.getItem("notes")) || [];
+
 newBtn.map((el) => {
   el.addEventListener("click", (e) => {
     switch (e.target.innerText) {
@@ -19,26 +21,32 @@ newBtn.map((el) => {
   });
 });
 
+//TODO save only non empty notes (or only notes with title)
 function newNote(xTitle, xContent) {
+  if (xTitle === "") {
+    //TODO add alert
+    console.log("empty title");
+    return;
+  }
   const note = {
     title: xTitle,
     content: xContent,
     date: new Date().toLocaleDateString(),
     time: new Date().toLocaleTimeString(),
   };
-  saveNotes(note);
+  notes.push(note);
+  renderNotes(note);
 }
 
-//TODO save only non empty notes (or only notes with title)
-function saveNotes(note) {
-  const notes = JSON.parse(localStorage.getItem("notes")) || [];
-  notes.push(note);
-  localStorage.setItem("notes", JSON.stringify(notes));
-  renderNotes(note);
+// function saveNotes(note) {
+//   const notes = JSON.parse(localStorage.getItem("notes")) || [];
+//   notes.push(note);
+//   localStorage.setItem("notes", JSON.stringify(notes));
+//   renderNotes(note);
 //   for (let i = 0; i < notes.length; i++) {
 //     console.log(notes[i]);
 //   }
-}
+// }
 
 //TODO render more than one note
 function renderNotes(xNote) {
