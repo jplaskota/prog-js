@@ -66,9 +66,9 @@ main {
 }
 
 main .note {
-  background-color: rgba(0, 0, 0, 0.3);
   width: 250px;
   border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0);
   padding: 15px;
   overflow-wrap: break-word;
   position: relative;
@@ -76,6 +76,7 @@ main .note {
   flex-direction: column;
   justify-content: space-between;
   user-select: none;
+  transition-duration: 0.3s;
 }
 
 main .note-pin {
@@ -102,12 +103,10 @@ main .pinned {
 }
 
 .note:hover {
-  transition-duration: 0.5s;
-  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(200, 200, 200, 0.3);
 }
 
 .note:hover > nav {
-  transition-duration: 0.5s;
   opacity: 1;
 }
 
@@ -135,6 +134,7 @@ main nav {
   padding-top: 30px;
   cursor: default;
   opacity: 0;
+  transition-duration: 0.5s;
 }
 
 main .menu button {
@@ -161,40 +161,43 @@ main .menu button {
   border-radius: 50%;
 }
 
-.c-base {
-  background-color: rgb(0, 0, 0);
+.black {
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
-.c-red {
-  background-color: rgb(199, 0, 43);
+.red {
+  background-color: rgba(199, 0, 43, 0.3);
 }
 
-.c-green {
-  background-color: rgb(55, 172, 40);
+.green {
+  background-color: rgba(55, 172, 40, 0.3);
 }
 
-.c-blue {
-  background-color: rgb(0, 102, 236);
+.blue {
+  background-color: rgba(0, 102, 236, 0.3);
 }
 
-.c-yellow {
-  background-color: rgb(255, 196, 0);
+.yellow {
+  background-color: rgba(255, 196, 0, 0.3);
 }
 
-.c-purple {
-  background-color: rgb(160, 0, 224);
+.purple {
+  background-color: rgba(160, 0, 224, 0.3);
 }
 
 .dropdown-color {
-  background-color: rgb(46, 46, 46);
+  background-color: rgba(46, 46, 46);
   border-radius: 5px;
-  display: none;
+  display: flex;
   position: absolute;
   padding: 10px;
   gap: 10px;
   cursor: default;
   left: 10px;
   bottom: 10px;
+  transition-duration: 250ms;
+  visibility: hidden;
+  opacity: 0;
 }
 
 .circle {
@@ -204,9 +207,4 @@ main .menu button {
   cursor: pointer;
   position: relative;
   filter: blur(1px);
-}
-
-/* TODO on click */
-#color:hover > .dropdown-color {
-  display: flex;
 }

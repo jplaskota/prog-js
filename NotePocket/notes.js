@@ -37,13 +37,11 @@ newBtn.map((el) => {
         title.textContent = "";
         content.textContent = "";
         title.focus();
-        localStorage.clear();
         break;
     }
   });
 });
 
-//TODO save only non empty notes (or only notes with title)
 function newNote(xTitle, xContent) {
   if (xTitle === "") {
     //TODO add alert
@@ -56,6 +54,7 @@ function newNote(xTitle, xContent) {
     date: new Date().toLocaleDateString(),
     time: new Date().toLocaleTimeString(),
     pinned: false,
+    color: "rgba(0, 0, 0, 0.3)",
   };
 
   //save to local storage
@@ -69,10 +68,11 @@ function renderNotes(xNote) {
   //note
   const note = document.createElement("div");
   if (xNote.pinned === true) {
-    note.className = "note pinned";
+    note.className = "note pinned black";
   } else {
-    note.className = "note";
+    note.className = "note black";
   }
+  note.style.backgroundColor = xNote.color;
   notesContainer.appendChild(note);
 
   //note pin
@@ -105,12 +105,71 @@ function renderNotes(xNote) {
   nav.appendChild(menu);
 
   const colorBtn = document.createElement("button");
+  colorBtn.addEventListener("click", (e) => {
+    dropdown.style.visibility = "visible";
+    dropdown.style.opacity = "1";
+  });
   colorBtn.id = "color";
   menu.appendChild(colorBtn);
 
   const colorIcon = document.createElement("img");
   colorIcon.src = "icons/color.svg";
   colorBtn.appendChild(colorIcon);
+
+  // color picker
+  const dropdown = document.createElement("div");
+  dropdown.addEventListener("mouseleave", (e) => {
+    dropdown.style.visibility = "hidden";
+    dropdown.style.opacity = "0";
+  });
+  dropdown.className = "dropdown-color";
+  colorBtn.appendChild(dropdown);
+
+  const cBlack = document.createElement("div");
+  cBlack.className = "circle";
+  cBlack.style.backgroundColor = "rgb(0, 0, 0)";
+  cBlack.dataset.color = "rgba(0, 0, 0, 0.3)";
+  dropdown.appendChild(cBlack);
+
+  const cPurple = document.createElement("div");
+  cPurple.className = "circle";
+  cPurple.style.backgroundColor = "rgb(128, 0, 128)";
+  cPurple.dataset.color = "rgba(128, 0, 128, 0.3)";
+  dropdown.appendChild(cPurple);
+
+  const cBlue = document.createElement("div");
+  cBlue.className = "circle";
+  cBlue.style.backgroundColor = "rgb(0, 0, 255)";
+  cBlue.dataset.color = "rgba(0, 0, 255, 0.3)";
+  dropdown.appendChild(cBlue);
+
+  const cGreen = document.createElement("div");
+  cGreen.className = "circle";
+  cGreen.style.backgroundColor = "rgb(0, 128, 0)";
+  cGreen.dataset.color = "rgba(0, 128, 0, 0.3)";
+  dropdown.appendChild(cGreen);
+
+  const cRed = document.createElement("div");
+  cRed.className = "circle";
+  cRed.style.backgroundColor = "rgb(255, 0, 0)";
+  cRed.dataset.color = "rgba(255, 0, 0, 0.3)";
+  dropdown.appendChild(cRed);
+
+  const cYellow = document.createElement("div");
+  cYellow.className = "circle";
+  cYellow.style.backgroundColor = "rgb(255 ,255 ,0)";
+  cYellow.dataset.color = "rgba(255, 255, 0, 0.3)";
+  dropdown.appendChild(cYellow);
+
+  Array.from(dropdown.children).map((el) => {
+    el.addEventListener("click", (e) => {
+      note.style.backgroundColor = e.target.dataset.color;
+      xNote.color = e.target.dataset.color;
+      notes.splice(notes.indexOf(xNote), 1);
+      notes.push(xNote);
+      localStorage.setItem("notes", JSON.stringify(notes));
+    });
+  });
 
   const pinBtn = document.createElement("button");
   pinBtn.addEventListener("click", (e) => {
