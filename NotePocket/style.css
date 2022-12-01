@@ -5,6 +5,14 @@
   opacity: 0.5;
 }
 
+:focus {
+  outline: none;
+}
+
+button:focus {
+  color: rgb(255, 204, 65);
+}
+
 body {
   background-color: rgb(24, 25, 41);
   max-width: 100vw;
@@ -102,11 +110,13 @@ main .pinned {
   order: -1;
 }
 
-.note:hover {
+.note:hover,
+.note:focus-within {
   border: 1px solid rgba(200, 200, 200, 0.3);
 }
 
-.note:hover > nav {
+.note:hover > nav,
+.note:focus-within > nav {
   opacity: 1;
 }
 
@@ -161,32 +171,8 @@ main .menu button {
   border-radius: 50%;
 }
 
-.black {
-  background-color: rgba(0, 0, 0, 0.3);
-}
-
-.red {
-  background-color: rgba(199, 0, 43, 0.3);
-}
-
-.green {
-  background-color: rgba(55, 172, 40, 0.3);
-}
-
-.blue {
-  background-color: rgba(0, 102, 236, 0.3);
-}
-
-.yellow {
-  background-color: rgba(255, 196, 0, 0.3);
-}
-
-.purple {
-  background-color: rgba(160, 0, 224, 0.3);
-}
-
 .dropdown-color {
-  background-color: rgba(46, 46, 46);
+  background-color: rgb(63, 63, 63);
   border-radius: 5px;
   display: flex;
   position: absolute;
@@ -206,5 +192,4 @@ main .menu button {
   border-radius: 50%;
   cursor: pointer;
   position: relative;
-  filter: blur(1px);
 }

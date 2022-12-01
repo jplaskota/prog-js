@@ -44,7 +44,7 @@ newBtn.map((el) => {
 
 function newNote(xTitle, xContent) {
   if (xTitle === "") {
-    //TODO add alert
+    //TODO add alert on page
     console.log("empty title");
     return false;
   }
@@ -87,10 +87,28 @@ function renderNotes(xNote) {
   //note title and content
   const noteTitle = document.createElement("div");
   noteTitle.className = "title";
+  noteTitle.addEventListener("click", (e) => {
+    e.target.contentEditable = true;
+    e.target.focus();
+  });
+  noteTitle.addEventListener("blur", (e) => {
+    e.target.contentEditable = false;
+    xNote.title = e.target.innerText;
+    SaveNotes();
+  });
   noteTitle.textContent = xNote.title;
   note.appendChild(noteTitle);
 
   const noteContent = document.createElement("div");
+  noteContent.addEventListener("click", (e) => {
+    e.target.contentEditable = true;
+    e.target.focus();
+  });
+  noteContent.addEventListener("blur", (e) => {
+    e.target.contentEditable = false;
+    xNote.content = e.target.innerText;
+    SaveNotes();
+  });
   noteContent.className = "content";
   noteContent.textContent = xNote.content;
   note.appendChild(noteContent);
@@ -165,9 +183,7 @@ function renderNotes(xNote) {
     el.addEventListener("click", (e) => {
       note.style.backgroundColor = e.target.dataset.color;
       xNote.color = e.target.dataset.color;
-      notes.splice(notes.indexOf(xNote), 1);
-      notes.push(xNote);
-      localStorage.setItem("notes", JSON.stringify(notes));
+      SaveNotes();
     });
   });
 
@@ -182,9 +198,7 @@ function renderNotes(xNote) {
       notePin.className = "note-pin";
       xNote.pinned = false;
     }
-    notes.splice(notes.indexOf(xNote), 1);
-    notes.push(xNote);
-    localStorage.setItem("notes", JSON.stringify(notes));
+    SaveNotes();
   });
   pinBtn.id = "pin";
   menu.appendChild(pinBtn);
@@ -206,4 +220,10 @@ function renderNotes(xNote) {
   const deleteIcon = document.createElement("img");
   deleteIcon.src = "icons/delete.svg";
   deleteBtn.appendChild(deleteIcon);
+
+  function SaveNotes() {
+    notes.splice(notes.indexOf(xNote), 1);
+    notes.push(xNote);
+    localStorage.setItem("notes", JSON.stringify(notes));
+  }
 }
