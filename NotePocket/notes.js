@@ -5,6 +5,14 @@ const notesContainer = document.getElementById("main");
 const newBtn = Array.from(document.getElementsByClassName("new-btn"));
 
 let notes = [];
+let tags = [
+  {
+    tag: "study",
+  },
+  {
+    tag: "work",
+  },
+];
 
 document.getElementById("clear-all").addEventListener("click", (e) => {
   localStorage.clear();
@@ -15,6 +23,7 @@ document.getElementById("clear-all").addEventListener("click", (e) => {
 window.addEventListener("load", (e) => {
   console.log("page is fully loaded");
   notes = JSON.parse(localStorage.getItem("notes")) || [];
+  tags = JSON.parse(localStorage.getItem("tags")) || [];
   console.log("notes lenght: " + notes.length);
   if (notes.length > 0) {
     for (let i = 0; i < notes.length; i++) {
@@ -55,6 +64,7 @@ function newNote(xTitle, xContent) {
     time: new Date().toLocaleTimeString(),
     pinned: false,
     color: "rgba(0, 0, 0, 0.3)",
+    tag: "none",
   };
 
   //save to local storage
@@ -72,6 +82,7 @@ function renderNotes(xNote) {
   } else {
     note.className = "note black";
   }
+  note.tabIndex = 0;
   note.style.backgroundColor = xNote.color;
   notesContainer.appendChild(note);
 
@@ -84,7 +95,12 @@ function renderNotes(xNote) {
   }
   note.appendChild(notePin);
 
-  //note title and content
+  //note topbar (title and tag)
+  const noteTopBar = document.createElement("div");
+  noteTopBar.className = "top-bar";
+  note.appendChild(noteTopBar);
+
+  //note title
   const noteTitle = document.createElement("div");
   noteTitle.className = "title";
   noteTitle.addEventListener("click", (e) => {
@@ -97,8 +113,9 @@ function renderNotes(xNote) {
     SaveNotes();
   });
   noteTitle.textContent = xNote.title;
-  note.appendChild(noteTitle);
+  noteTopBar.appendChild(noteTitle);
 
+  //note content
   const noteContent = document.createElement("div");
   noteContent.addEventListener("click", (e) => {
     e.target.contentEditable = true;
@@ -122,11 +139,13 @@ function renderNotes(xNote) {
   menu.className = "menu";
   nav.appendChild(menu);
 
+  // note color palette
   const colorBtn = document.createElement("button");
   colorBtn.addEventListener("click", (e) => {
     dropdown.style.visibility = "visible";
     dropdown.style.opacity = "1";
   });
+  colorBtn.tabIndex = -1;
   colorBtn.id = "color";
   menu.appendChild(colorBtn);
 
@@ -134,7 +153,7 @@ function renderNotes(xNote) {
   colorIcon.src = "icons/color.svg";
   colorBtn.appendChild(colorIcon);
 
-  // color picker
+  // color list
   const dropdown = document.createElement("div");
   dropdown.addEventListener("mouseleave", (e) => {
     dropdown.style.visibility = "hidden";
@@ -187,6 +206,7 @@ function renderNotes(xNote) {
     });
   });
 
+  // note pin
   const pinBtn = document.createElement("button");
   pinBtn.addEventListener("click", (e) => {
     if (xNote.pinned === false) {
@@ -200,12 +220,24 @@ function renderNotes(xNote) {
     }
     SaveNotes();
   });
+  pinBtn.tabIndex = -1;
   pinBtn.id = "pin";
   menu.appendChild(pinBtn);
 
   const pinIcon = document.createElement("img");
   pinIcon.src = "icons/pin.svg";
   pinBtn.appendChild(pinIcon);
+
+  //note tag
+  const noteTag = document.createElement("button");
+  noteTag.className = "tag-btn";
+  noteTag.tabIndex = -1;
+  noteTag.ariaMultiLine = true;
+  menu.appendChild(noteTag);
+
+  const noteTagIcon = document.createElement("img");
+  noteTagIcon.src = " icons/tag.svg";
+  noteTag.appendChild(noteTagIcon);
 
   // note right icon
   const deleteBtn = document.createElement("button");
@@ -214,6 +246,7 @@ function renderNotes(xNote) {
     notes.splice(notes.indexOf(xNote), 1);
     localStorage.setItem("notes", JSON.stringify(notes));
   });
+  deleteBtn.tabIndex = -1;
   deleteBtn.id = "delete";
   nav.appendChild(deleteBtn);
 

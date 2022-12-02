@@ -193,3 +193,37 @@ main .menu button {
   cursor: pointer;
   position: relative;
 }
+
+/* TODO tag list onclick like color list */
+#tag-btn:hover > .tag-list {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tag-list {
+  background-color: rgb(63, 63, 63);
+  border-radius: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  position: absolute;
+  padding: 10px;
+  gap: 10px;
+  cursor: default;
+  max-width: 240px;
+  left: 10px;
+  top: 105px;
+  transition-duration: 250ms;
+  visibility: hidden;
+  opacity: 0;
+  z-index: 1;
+}
+
+.tag {
+  background-color: rgb(27, 27, 27);
+  max-width: 100px;
+  flex-grow: 1;
+  border-radius: 5px;
+  color: white;
+  padding: 7px;
+  cursor: pointer;
+}
