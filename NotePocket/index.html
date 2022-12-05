@@ -10,7 +10,6 @@
   <body>
     <div class="container">
       <header>
-        <!-- TODO tag ( list of tags ? idk ) on the right side of title -->
         <div
           contenteditable="true"
           aria-multiline="true"
@@ -25,13 +24,24 @@
           class="input new-content"
           data-content
         ></div>
-        <nav class="navbar">
-          <button class="new-btn">Save</button>
-          <button class="new-btn">Close</button>
+        <nav>
+          <div class="bar-left">
+            <img src="./icons/tag.svg" />
+            <!-- TODO list of checkbox (slt) (select more than one tag) and add "new tag" option on bottom of list -->
+            <select data-tag>
+              <option value="none" selected="selected">
+                Select tag or add new ...
+              </option>
+            </select>
+          </div>
+          <div class="bar-right">
+            <button class="new-btn">Save</button>
+            <button class="new-btn">Close</button>
+          </div>
         </nav>
       </header>
       <main id="main">
-        <!-- TODO tag name etc in menu-->
+        <!-- TODO checkbox (or slt) in tags>
         <!-- * Template -->
         <div class="note" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="title">Test / Template</div>

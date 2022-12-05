@@ -13,6 +13,10 @@ button:focus {
   color: rgb(255, 204, 65);
 }
 
+p {
+  margin: 0;
+}
+
 body {
   background-color: rgb(24, 25, 41);
   max-width: 100vw;
@@ -51,13 +55,45 @@ header .new-content {
 
 header nav {
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
+}
+
+header .bar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+header .bar-left img {
+  cursor: default;
+}
+
+header .bar-left select {
+  background-color: transparent;
+  width: 210px;
+  border: none;
+  color: white;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+header .bar-left select option {
+  background-color: rgb(24, 25, 41);
+  color: white;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+}
+
+header .bar-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 header button {
   background-color: transparent;
   border: none;
-  margin-left: 20px;
   padding: 0;
   color: white;
   font-family: "Montserrat", sans-serif;
@@ -172,7 +208,7 @@ main .menu button {
 }
 
 .dropdown-color {
-  background-color: rgb(63, 63, 63);
+  background-color: rgb(70, 70, 70);
   border-radius: 5px;
   display: flex;
   position: absolute;
@@ -192,9 +228,13 @@ main .menu button {
   border-radius: 50%;
   cursor: pointer;
   position: relative;
+  transition-duration: 350ms;
 }
 
-/* TODO tag list onclick like color list */
+.circle:hover {
+  transform: scale(1.5);
+}
+
 #tag-btn:hover > .tag-list {
   visibility: visible;
   opacity: 1;
@@ -206,24 +246,39 @@ main .menu button {
   display: flex;
   flex-wrap: wrap;
   position: absolute;
-  padding: 10px;
+  padding: 7px;
   gap: 10px;
   cursor: default;
   max-width: 240px;
   left: 10px;
-  top: 105px;
+  top: 100px;
   transition-duration: 250ms;
   visibility: hidden;
   opacity: 0;
   z-index: 1;
+  align-items: stretch;
 }
 
 .tag {
+  display: grid;
   background-color: rgb(27, 27, 27);
   max-width: 100px;
   flex-grow: 1;
   border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0);
   color: white;
   padding: 7px;
   cursor: pointer;
+  transition-duration: 250ms;
+  align-items: center;
+}
+
+.tagPinned {
+  background-color: rgb(218, 167, 0);
+  color: black;
+}
+
+.tag:hover {
+  transform: scale(1.1);
+  border: 1px solid rgb(200, 200, 200);
 }

@@ -1,5 +1,6 @@
 const title = document.querySelector("[data-title]");
 const content = document.querySelector("[data-content]");
+const tag = document.querySelector("[data-tag]");
 const notesContainer = document.getElementById("main");
 
 const newBtn = Array.from(document.getElementsByClassName("new-btn"));
@@ -12,8 +13,18 @@ let tags = [
   {
     tag: "work",
   },
+  {
+    tag: "free time",
+  },
+  {
+    tag: "shopping",
+  },
+  {
+    tag: "Lorem ipsum dolor sit amet consectetur.",
+  },
 ];
 
+//delete all notes from local storage and page
 document.getElementById("clear-all").addEventListener("click", (e) => {
   localStorage.clear();
   notesContainer.innerHTML = "";
@@ -23,11 +34,19 @@ document.getElementById("clear-all").addEventListener("click", (e) => {
 window.addEventListener("load", (e) => {
   console.log("page is fully loaded");
   notes = JSON.parse(localStorage.getItem("notes")) || [];
-  tags = JSON.parse(localStorage.getItem("tags")) || [];
+  // tags = JSON.parse(localStorage.getItem("tags")) || [];
   console.log("notes lenght: " + notes.length);
   if (notes.length > 0) {
     for (let i = 0; i < notes.length; i++) {
       renderNotes(notes[i]);
+    }
+  }
+  if (tags.length > 0) {
+    for (let i = 0; i < tags.length; i++) {
+      const option = document.createElement("option");
+      option.value = tags[i].tag;
+      option.textContent = tags[i].tag;
+      tag.appendChild(option);
     }
   }
 });
@@ -230,6 +249,10 @@ function renderNotes(xNote) {
 
   //note tag
   const noteTag = document.createElement("button");
+  noteTag.addEventListener("click", (e) => {
+    noteTagList.style.visibility = "visible";
+    noteTagList.style.opacity = "1";
+  });
   noteTag.className = "tag-btn";
   noteTag.tabIndex = -1;
   noteTag.ariaMultiLine = true;
@@ -238,6 +261,23 @@ function renderNotes(xNote) {
   const noteTagIcon = document.createElement("img");
   noteTagIcon.src = " icons/tag.svg";
   noteTag.appendChild(noteTagIcon);
+
+  const noteTagList = document.createElement("div");
+  noteTagList.addEventListener("mouseleave", (e) => {
+    noteTagList.style.visibility = "hidden";
+    noteTagList.style.opacity = "0";
+  });
+  noteTagList.className = "tag-list";
+  noteTag.appendChild(noteTagList);
+
+  for (let i = 0; i < tags.length; i++) {
+    const xNoteTag = document.createElement("div");
+    const xNoteTagText = document.createElement("p");
+    xNoteTag.className = "tag";
+    xNoteTagText.textContent = tags[i].tag;
+    xNoteTag.appendChild(xNoteTagText);
+    noteTagList.appendChild(xNoteTag);
+  }
 
   // note right icon
   const deleteBtn = document.createElement("button");
