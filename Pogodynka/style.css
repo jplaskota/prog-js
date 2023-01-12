@@ -5,8 +5,8 @@
   opacity: 0.5;
 }
 
-p{
-    margin: 0;
+p {
+  margin: 0;
 }
 
 button:focus {
@@ -23,6 +23,22 @@ body {
   color: white;
 }
 
+.bgc {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+.box {
+  padding: 20px;
+  display: flex;
+  gap: 20px;
+}
+
+.ver {
+  flex-direction: column;
+  gap: 20px;
+}
+
 .container {
   display: flex;
   min-height: 400px;
@@ -33,23 +49,10 @@ body {
   margin-top: 30px;
 }
 
-.bgc {
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
-}
-
 .searchBar {
   min-width: 100px;
   padding: 15px;
   font-size: 1.5rem;
-}
-
-.main {
-  padding: 20px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 20px;
 }
 
 .current {
@@ -65,43 +68,52 @@ body {
 .days {
   height: 350px;
   min-width: 200px;
-  background-color: darkgreen;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
 }
 
-/* current */
+/* * current */
 
-.city {
-    font-size: 2.5rem;
+main .city {
+  font-size: 2.5rem;
 }
 
-.temp {
-    font-size: 6rem;
+main .temp {
+  font-size: 6rem;
 }
 
-.desc {
-    font-size: 1.3rem;;
+main .desc {
+  font-size: 1.3rem;
 }
 
-.diff {
-    display: flex;
-    gap: 10px;
-    font-size: 1.5rem;
+main .diff {
+  display: flex;
+  gap: 10px;
+  font-size: 1.5rem;
 }
 
-.hours {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    gap: 10px;
+main .hours {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 10px;
 }
 
-/* days */
+/* * days */
 
 .day {
-    height: 50px;
-    width: 200px;
+  height: 50px;
+  width: 200px;
+}
+
+/* * saved */
+
+.saved {
+  display: flex;
+  gap: 10px;
+  padding: 15px;
+  align-items: center;
+  font-size: 1.5rem;
 }
