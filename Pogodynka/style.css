@@ -39,6 +39,22 @@ body {
   gap: 20px;
 }
 
+.format {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background-color: rgba(205, 0, 0, 0.408);
+  transition: 200ms;
+}
+
+.format:hover {
+  scale: 1.2;
+  background-color: rgb(205, 0, 0);
+}
+
 .container {
   display: flex;
   min-height: 400px;
@@ -59,6 +75,7 @@ body {
   height: 300px;
   min-width: 200px;
   padding: 25px;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -75,6 +92,21 @@ body {
 }
 
 /* * current */
+
+main .add {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: rgb(255, 183, 0);
+  transition: 200ms;
+}
+
+main .add:hover {
+  scale: 1.2;
+}
 
 main .city {
   font-size: 2.5rem;
@@ -112,8 +144,19 @@ main .hours {
 
 .saved {
   display: flex;
-  gap: 10px;
-  padding: 15px;
+  justify-content: space-between;
+  gap: 50px;
+  padding: 15px 35px 15px 15px;
   align-items: center;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+}
+
+.savedBox {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.savedBox .temp {
+  font-size: 1.9rem;
 }

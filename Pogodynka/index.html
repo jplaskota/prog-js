@@ -11,18 +11,20 @@
     <div class="container">
       <div
         contenteditable="true"
+        aria-multiline="false"
         placeholder="City"
         class="searchBar bgc"
         data-search
       ></div>
       <main class="box bgc">
         <div class="current bgc">
+          <div class="add" data-add></div>
           <div class="city" data-city>Kraków</div>
           <div class="temp" data-temp>5°</div>
           <div class="desc" data-desc>Zimno :D</div>
           <div class="diff">
-            <div class="min" data-min>0°</div>
-            <div class="max" data-max>15°</div>
+            <div class="min" data-temp-min>0°</div>
+            <div class="max" data-temp-max>15°</div>
           </div>
           <div class="hours">in progress ...</div>
         </div>
@@ -35,14 +37,10 @@
           <div class="day bgc"></div>
         </div>
       </main>
-      <nav class="box ver bgc">
-        <div class="saved bgc">
-          <div class="city">Kraków</div>
-          <img src="https://picsum.photos/id/30/30" />
-          <p>5°</p>
-        </div>
+      <nav class="box ver bgc" data-saved>
       </nav>
     </div>
+    <div class="format" data-format></div>
     <script src="pogoda.js"></script>
   </body>
 </html>
