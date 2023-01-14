@@ -9,6 +9,7 @@
   </head>
   <body>
     <div class="container">
+      <div class="alert" data-alert></div>
       <div
         contenteditable="true"
         aria-multiline="false"
@@ -18,7 +19,9 @@
       ></div>
       <main class="box bgc">
         <div class="current bgc">
-          <div class="add" data-add></div>
+          <div class="add" data-add>
+            <img src="./icons/add.svg" />
+          </div>
           <div class="city" data-city>Kraków</div>
           <div class="temp" data-temp>5°</div>
           <div class="desc" data-desc>Zimno :D</div>
@@ -37,10 +40,11 @@
           <div class="day bgc"></div>
         </div>
       </main>
-      <nav class="box ver bgc" data-saved>
-      </nav>
+      <nav class="box ver gbc" data-saved></nav>
     </div>
-    <div class="format" data-format></div>
+    <div class="format" data-format>
+      <img src="./icons/delete.svg" />
+    </div>
     <script src="pogoda.js"></script>
   </body>
 </html>

@@ -18,7 +18,7 @@ button:focus {
 }
 
 body {
-  background-color: rgb(24, 25, 41);
+  background-color: rgb(25, 79, 173);
   font-family: "Montserrat", sans-serif;
   color: white;
 }
@@ -29,9 +29,9 @@ body {
 }
 
 .box {
-  padding: 20px;
+  padding: 10px;
   display: flex;
-  gap: 20px;
+  gap: 10px;
 }
 
 .ver {
@@ -40,19 +40,21 @@ body {
 }
 
 .format {
-  position: absolute;
+  position: fixed;
   bottom: 20px;
   right: 20px;
-  height: 20px;
-  width: 20px;
-  border-radius: 50%;
-  background-color: rgba(205, 0, 0, 0.408);
+  height: 35px;
+  width: 35px;
+  border-radius: 30%;
+  background-color: rgba(205, 0, 0, 0.658);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transition: 200ms;
 }
 
 .format:hover {
-  scale: 1.2;
-  background-color: rgb(205, 0, 0);
+  background-color: rgb(185, 0, 0);
 }
 
 .container {
@@ -95,17 +97,25 @@ body {
 
 main .add {
   position: absolute;
-  top: -5px;
-  left: -5px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: rgb(255, 183, 0);
-  transition: 200ms;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px 0;
+  background-color: rgba(255, 208, 0, 0.833);
+  transition: 150ms ease-in-out;
 }
 
 main .add:hover {
-  scale: 1.2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(255, 200, 0);
+}
+
+main .add img {
+  width: 30px;
+  height: 30px;
 }
 
 main .city {
@@ -146,15 +156,22 @@ main .hours {
   display: flex;
   justify-content: space-between;
   gap: 50px;
-  padding: 15px 35px 15px 15px;
   align-items: center;
   font-size: 1.2rem;
+  transition: 150ms ease-in-out;
+  border: 1px solid transparent;
+}
+
+.saved:hover {
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .savedBox {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  margin-left: 20px;
 }
 
 .savedBox .temp {

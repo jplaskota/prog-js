@@ -85,10 +85,6 @@ add.addEventListener("click", (e) => {
 
   savedCity.push({
     name: city.textContent,
-    temp: temp.textContent,
-    desc: desc.textContent,
-    tempMin: tempMin.textContent,
-    tempMax: tempMax.textContent,
   });
 
   localStorage.setItem("city", JSON.stringify(savedCity));
@@ -105,7 +101,33 @@ format.addEventListener("click", (e) => {
   console.log("Local storage cleared. Length: " + savedCity.length);
 });
 
+async function getWeather(city) {
+  const { main, name, weather } = await fetch(
+    "https://api.openweathermap.org/data/2.5/weather?q=" +
+      city +
+      "&appid=9872a8ba6858e932cea3bacb69631da1",
+    { method: "GET" }
+  )
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        console.log("City not found");
+        return;
+      }
+    })
+    .catch((err) => console.log(err));
+
+  return {
+    name: name,
+    temp: (main.temp - 273.15).toFixed(0) + "°",
+    weather: weather,
+  };
+}
+
 async function renderCity(city) {
+  const { name, temp, weather } = await getWeather(city.name);
+
   const cityContainer = document.createElement("div");
   cityContainer.classList.add("saved", "bgc");
   saved.appendChild(cityContainer);
@@ -116,20 +138,21 @@ async function renderCity(city) {
 
   const cityName = document.createElement("div");
   cityName.classList.add("city");
-  cityName.textContent = city.name;
+  cityName.textContent = name;
   box.appendChild(cityName);
 
   const cityTemp = document.createElement("div");
   cityTemp.classList.add("temp");
-  cityTemp.textContent = city.temp;
+  cityTemp.textContent = temp;
   box.appendChild(cityTemp);
 
   const img = document.createElement("img");
-  img.src = "https://picsum.photos/id/30/30";
+  img.src = `https://openweathermap.org/img/wn/${weather[0].icon}@2x.png`;
   cityContainer.appendChild(img);
 }
 
-// TODO: function to get weather data from API (obj problem ...)
+// TODO: function to get weather data from API (obj problem ...) (to check...)
+// TODO: find better looking icons
 
 // https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
 // 9872a8ba6858e932cea3bacb69631da1
