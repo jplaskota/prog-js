@@ -2,8 +2,10 @@
 const searchCity = document.querySelector("[data-search]");
 const add = document.querySelector("[data-add]");
 const format = document.querySelector("[data-format]");
-const days = document.querySelector("[data-days]");
 const saved = document.querySelector("[data-saved]");
+const err = document.querySelector("[data-err]");
+const daysBox = document.querySelector("[data-days]");
+const hoursBox = document.querySelector("[data-hours");
 
 //out current
 const city = document.querySelector("[data-city]");
@@ -16,7 +18,7 @@ let savedCity = [];
 
 window.addEventListener("load", (e) => {
   console.log("page is fully loaded");
-  setInterval(loadSaved, 300000)
+  setInterval(loadSaved, 300000);
   loadSaved();
 });
 
@@ -65,6 +67,7 @@ add.addEventListener("click", (e) => {
     for (let i = 0; i < savedCity.length; i++) {
       if (savedCity[i].name === city.textContent) {
         console.log("City already saved");
+        error("City already saved");
         return;
       }
     }
@@ -90,6 +93,20 @@ format.addEventListener("click", (e) => {
   console.log("Local storage cleared. Length: " + savedCity.length);
 });
 
+async function error(message) {
+  err.innerHTML = "";
+  
+  const p = document.createElement("p");
+  p.textContent = message;
+  err.appendChild(p);
+  err.classList.add("animatedErr");
+
+  setTimeout(() => {
+    err.classList.remove("animatedErr");
+    err.innerHTML = "";
+  }, 3000);
+}
+
 // download weather data by city name
 async function getWeather(cityName) {
   const { city, list } = await fetch(
@@ -102,15 +119,37 @@ async function getWeather(cityName) {
       if (res.ok) {
         return res.json();
       } else {
-        console.log("City not found");
-        return;
+        error("City not found");
+        throw new Error("City not found");
       }
     })
-    .catch((err) => console.log(err.message));
+    .catch((err) => console.log(err));
 
   return {
     name: city.name,
     list: list,
+  };
+}
+
+async function getHours(cityName) {
+  const { list } = await fetch(
+    "https://pro.openweathermap.org/data/2.5/forecast/hourly?q=" +
+      cityName +
+      "&cnt=6&mode=json&units=metric&appid=e56ebc4991608107818d622503afefbe",
+    { method: "GET" }
+  )
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        error("Error with hours fetch");
+        throw new Error("Error with hours fetch");
+      }
+    })
+    .catch((err) => console.log(err));
+
+  return {
+    hours: list,
   };
 }
 
@@ -124,13 +163,39 @@ async function changeCurrent(cityName) {
   tempMin.textContent = "↓ " + list[0].temp.min.toFixed(0) + "°";
   tempMax.textContent = "↑ " + list[0].temp.max.toFixed(0) + "°";
 
-  days.innerHTML = "";
+  daysBox.innerHTML = "";
+  hoursBox.innerHTML = "";
+
+  const { hours } = await getHours(cityName);
+
+  function pad(d) {
+    return d < 10 ? "0" + d.toString() : d.toString();
+  }
+
+  // add 5 next hours
+  for (let i = 1; i < 6; i++) {
+    const box = document.createElement("div");
+    box.classList.add("hour");
+    hoursBox.appendChild(box);
+
+    const hour = document.createElement("p");
+    hour.textContent = pad((new Date().getHours() + i) % 24);
+    box.appendChild(hour);
+
+    const img = document.createElement("img");
+    img.src = `https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${hours[i].weather[0].icon}.svg`;
+    box.appendChild(img);
+
+    const temp = document.createElement("p");
+    temp.textContent = hours[i].main.temp.toFixed(0) + "°";
+    box.appendChild(temp);
+  }
 
   // add 5 next days of weekend
   for (let i = 1; i < 6; i++) {
     const box = document.createElement("div");
     box.classList.add("day", "bgc");
-    days.appendChild(box);
+    daysBox.appendChild(box);
 
     const dataBox = document.createElement("div");
     dataBox.classList.add("dayBox");
@@ -185,15 +250,16 @@ async function renderCity(city) {
   cityTemp.textContent = list[0].temp.day.toFixed(0) + "°";
   box.appendChild(cityTemp);
 
-  const img = document.createElement("img");
-  img.src = `https://openweathermap.org/img/wn/${list[0].weather[0].icon}@2x.png`;
-  cityContainer.appendChild(img);
-}
+  const cityImgBox = document.createElement("div");
+  cityImgBox.classList.add("cityImgBox");
+  cityContainer.appendChild(cityImgBox);
 
-// TODO: find better looking icons
+  const img = document.createElement("img");
+  img.src = `https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${list[0].weather[0].icon}.svg`;
+  cityImgBox.appendChild(img);
+}
 
 // [max 30 day data]
 // https://pro.openweathermap.org/data/2.5/forecast/climate?q={city name}&cnt={number of days}&mode=json&units=metric&appid={API key}
-
 
 // e56ebc4991608107818d622503afefbe
