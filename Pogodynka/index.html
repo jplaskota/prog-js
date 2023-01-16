@@ -8,8 +8,8 @@
     <title>Pogoda</title>
   </head>
   <body>
+    <div class="err" data-err></div>
     <div class="container">
-      <div class="alert" data-alert></div>
       <div
         contenteditable="true"
         aria-multiline="false"
@@ -31,14 +31,7 @@
           </div>
           <div class="hours">in progress ...</div>
         </div>
-        <div class="days">
-          <div class="day bgc"></div>
-          <div class="day bgc"></div>
-          <div class="day bgc"></div>
-          <div class="day bgc"></div>
-          <div class="day bgc"></div>
-          <div class="day bgc"></div>
-        </div>
+        <div class="days" data-days></div>
       </main>
       <nav class="box ver gbc" data-saved></nav>
     </div>
