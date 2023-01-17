@@ -7,7 +7,7 @@ const err = document.querySelector("[data-err]");
 const daysBox = document.querySelector("[data-days]");
 const hoursBox = document.querySelector("[data-hours");
 
-//out current
+//out (current)
 const city = document.querySelector("[data-city]");
 const temp = document.querySelector("[data-temp]");
 const desc = document.querySelector("[data-desc]");
@@ -27,7 +27,7 @@ window.addEventListener("load", async (e) => {
   );
 });
 
-// load all data with fetch api
+// load saved cities from local storage and render them
 async function loadSaved() {
   savedCity = JSON.parse(localStorage.getItem("city")) || [];
   console.log("Loaded city: " + savedCity.length);
@@ -41,7 +41,7 @@ async function loadSaved() {
   }
 }
 
-// search city by name ("enter" click)
+// search city by name
 window.addEventListener("keypress", async (e) => {
   if (e.code === "Enter") {
     searchCity.blur();
@@ -97,6 +97,7 @@ format.addEventListener("click", (e) => {
   console.log("Local storage cleared. Length: " + savedCity.length);
 });
 
+// error notification
 async function error(message) {
   err.innerHTML = "";
 
@@ -111,6 +112,7 @@ async function error(message) {
   }, 3000);
 }
 
+// delete city from local storage
 async function remove(cityName) {
   const index = savedCity.indexOf(cityName);
   console.log(index);
@@ -147,6 +149,7 @@ async function getWeather(cityName) {
   };
 }
 
+// download hours data by city name
 async function getHours(cityName) {
   const { list } = await fetch(
     "https://pro.openweathermap.org/data/2.5/forecast/hourly?q=" +
@@ -179,7 +182,6 @@ async function changeCurrent(cityName) {
   tempMin.textContent = "↓ " + list[0].temp.min.toFixed(0) + "°";
   tempMax.textContent = "↑ " + list[0].temp.max.toFixed(0) + "°";
 
-  // console.log("delete hours and days");
   daysBox.innerHTML = "";
   hoursBox.innerHTML = "";
 
@@ -240,7 +242,7 @@ async function changeCurrent(cityName) {
   }
 }
 
-// create box with weather data
+// render saved cities
 async function renderCity(cityName) {
   const { name, list } = await getWeather(cityName);
 
@@ -248,6 +250,7 @@ async function renderCity(cityName) {
   cityContainer.classList.add("saved", "bgc");
   saved.appendChild(cityContainer);
 
+  // change current city
   cityContainer.addEventListener("click", (e) => {
     localStorage.setItem("pin", JSON.stringify(name));
     changeCurrent(name);
@@ -261,6 +264,7 @@ async function renderCity(cityName) {
   delImg.src = "icons/delete.svg";
   del.appendChild(delImg);
 
+  // delete city
   delImg.addEventListener("click", (e) => {
     e.stopPropagation();
     remove(name);
@@ -290,7 +294,10 @@ async function renderCity(cityName) {
   cityImgBox.appendChild(img);
 }
 
-// [max 30 day data]
+// [max 30 days weather forecast]
 // https://pro.openweathermap.org/data/2.5/forecast/climate?q={city name}&cnt={number of days}&mode=json&units=metric&appid={API key}
+
+// [hourly forecast]
+// https://pro.openweathermap.org/data/2.5/forecast/hourly?q={city name}&cnt={number of hours}&mode=json&units=metric&appid={API key}
 
 // e56ebc4991608107818d622503afefbe
