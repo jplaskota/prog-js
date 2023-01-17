@@ -16,21 +16,21 @@ const tempMax = document.querySelector("[data-temp-max]");
 
 let savedCity = [];
 
-window.addEventListener("load", (e) => {
+window.addEventListener("load", async (e) => {
   console.log("page is fully loaded");
   setInterval(loadSaved, 300000);
   loadSaved();
+
+  await changeCurrent(
+    JSON.parse(localStorage.getItem("pin")) ||
+      (savedCity.length > 0 ? savedCity[0] : "Kraków")
+  );
 });
 
 // load all data with fetch api
 async function loadSaved() {
   savedCity = JSON.parse(localStorage.getItem("city")) || [];
   console.log("Loaded city: " + savedCity.length);
-
-  changeCurrent(
-    localStorage.getItem("pin") ||
-      (savedCity.length > 0 ? savedCity[0].name : "Kraków")
-  );
 
   saved.innerHTML = "";
 
@@ -64,8 +64,14 @@ add.addEventListener("click", (e) => {
   }
 
   if (savedCity.length > 0) {
+    if (savedCity.length >= 10) {
+      console.log("All slots occupied");
+      error("All slots occupied");
+      return;
+    }
+
     for (let i = 0; i < savedCity.length; i++) {
-      if (savedCity[i].name === city.textContent) {
+      if (savedCity[i] === city.textContent) {
         console.log("City already saved");
         error("City already saved");
         return;
@@ -73,9 +79,7 @@ add.addEventListener("click", (e) => {
     }
   }
 
-  savedCity.push({
-    name: city.textContent,
-  });
+  savedCity.push(city.textContent);
 
   localStorage.setItem("city", JSON.stringify(savedCity));
 
@@ -95,7 +99,7 @@ format.addEventListener("click", (e) => {
 
 async function error(message) {
   err.innerHTML = "";
-  
+
   const p = document.createElement("p");
   p.textContent = message;
   err.appendChild(p);
@@ -105,6 +109,18 @@ async function error(message) {
     err.classList.remove("animatedErr");
     err.innerHTML = "";
   }, 3000);
+}
+
+async function remove(cityName) {
+  const index = savedCity.indexOf(cityName);
+  console.log(index);
+
+  if (index > -1) {
+    savedCity.splice(index, 1);
+    console.log("Delete");
+    localStorage.setItem("city", JSON.stringify(savedCity));
+    loadSaved();
+  }
 }
 
 // download weather data by city name
@@ -163,6 +179,7 @@ async function changeCurrent(cityName) {
   tempMin.textContent = "↓ " + list[0].temp.min.toFixed(0) + "°";
   tempMax.textContent = "↑ " + list[0].temp.max.toFixed(0) + "°";
 
+  // console.log("delete hours and days");
   daysBox.innerHTML = "";
   hoursBox.innerHTML = "";
 
@@ -224,26 +241,40 @@ async function changeCurrent(cityName) {
 }
 
 // create box with weather data
-async function renderCity(city) {
-  const { name, list } = await getWeather(city.name);
+async function renderCity(cityName) {
+  const { name, list } = await getWeather(cityName);
 
   const cityContainer = document.createElement("div");
   cityContainer.classList.add("saved", "bgc");
   saved.appendChild(cityContainer);
 
   cityContainer.addEventListener("click", (e) => {
+    localStorage.setItem("pin", JSON.stringify(name));
     changeCurrent(name);
-    localStorage.setItem("pin", name);
+  });
+
+  const del = document.createElement("div");
+  del.classList.add("savedDel");
+  cityContainer.appendChild(del);
+
+  const delImg = document.createElement("img");
+  delImg.src = "icons/delete.svg";
+  del.appendChild(delImg);
+
+  delImg.addEventListener("click", (e) => {
+    e.stopPropagation();
+    remove(name);
+    cityContainer.remove();
   });
 
   const box = document.createElement("div");
   box.classList.add("savedBox");
   cityContainer.appendChild(box);
 
-  const cityName = document.createElement("div");
-  cityName.classList.add("city");
-  cityName.textContent = name;
-  box.appendChild(cityName);
+  const cityNameBox = document.createElement("div");
+  cityNameBox.classList.add("city");
+  cityNameBox.textContent = name;
+  box.appendChild(cityNameBox);
 
   const cityTemp = document.createElement("div");
   cityTemp.classList.add("temp");
