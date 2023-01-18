@@ -237,7 +237,16 @@ main .hours {
 
 /* * saved */
 
+.savedContainer {
+  width: 80vw;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
 .saved {
+  width: 320px;
   position: relative;
   display: flex;
   justify-content: space-between;
