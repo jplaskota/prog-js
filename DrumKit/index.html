@@ -1,11 +1,45 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<title>JavaScript Piano Simulator</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
-</head>
-<body>
-	<div id="piano"></div>
-	<script src="piano.js"></script>
-</body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Piano (DrumKit)</title>
+  </head>
+  <body>
+    <div class="container">
+      <div id="piano"></div>
+      <nav>
+        <button id="record-button">Record</button>
+        <button id="play-button">Play</button>
+        <button id="play-all-button">Play all</button>
+      </nav>
+      <nav>
+        <div class="path active" data-path="0">Path 1</div>
+        <div class="path" data-path="1">Path 2</div>
+        <div class="path" data-path="2">Path 3</div>
+        <div class="path" data-path="3">Path 4</div>
+      </nav>
+      <legend>
+        <section>
+          <p>C - a</p>
+          <p>D - s</p>
+          <p>E - d</p>
+          <p>F - f</p>
+          <p>G - j</p>
+          <p>A - k</p>
+          <p>B - l</p>
+          <p>C2 - ;</p>
+        </section>
+        <section>
+          <p>Record - space</p>
+          <p>Play - enter</p>
+          <p>Play All - 0</p>
+          <p>Path - 1, 2, 3, 4</p>
+        </section>
+      </legend>
+    </div>
+    <script src="piano.js"></script>
+  </body>
 </html>
