@@ -32,7 +32,6 @@ document.getElementById("clear-all").addEventListener("click", (e) => {
 });
 
 window.addEventListener("load", (e) => {
-  console.log("page is fully loaded");
   notes = JSON.parse(localStorage.getItem("notes")) || [];
   // tags = JSON.parse(localStorage.getItem("tags")) || [];
   console.log("notes lenght: " + notes.length);
@@ -72,7 +71,6 @@ newBtn.map((el) => {
 
 function newNote(xTitle, xContent) {
   if (xTitle === "") {
-    //TODO add alert on page
     console.log("empty title");
     return false;
   }
