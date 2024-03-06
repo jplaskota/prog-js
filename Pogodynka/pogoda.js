@@ -7,30 +7,44 @@ const err = document.querySelector("[data-err]");
 const daysBox = document.querySelector("[data-days]");
 const hoursBox = document.querySelector("[data-hours");
 
-//out (current)
+//out
 const city = document.querySelector("[data-city]");
 const temp = document.querySelector("[data-temp]");
 const desc = document.querySelector("[data-desc]");
 const tempMin = document.querySelector("[data-temp-min]");
 const tempMax = document.querySelector("[data-temp-max]");
 
+// TODO place to add own api key
+const API_KEY = "...";
+
 let savedCity = [];
+let currentCityId;
+
+// TODO language option (en, pl)
+let language = "pl";
 
 window.addEventListener("load", async (e) => {
-  console.log("page is fully loaded");
-  setInterval(loadSaved, 300000);
+  if (API_KEY.length < 5) {
+    console.log("No api key");
+    return;
+  }
+
   loadSaved();
 
-  await changeCurrent(
-    JSON.parse(localStorage.getItem("pin")) ||
-      (savedCity.length > 0 ? savedCity[0] : "Kraków")
-  );
+  if (savedCity.length > 0) {
+    const { city, list } = await getWeatherById(savedCity[0]);
+    changeCurrent(city, list);
+  } else {
+    if (navigator.geolocation) {
+      getWeatherByLocation();
+    }
+  }
 });
 
 // load saved cities from local storage and render them
-async function loadSaved() {
-  savedCity = JSON.parse(localStorage.getItem("city")) || [];
-  console.log("Loaded city: " + savedCity.length);
+function loadSaved() {
+  savedCity = JSON.parse(localStorage.getItem("cities")) || [];
+  console.log("Loaded cities: " + savedCity.length);
 
   saved.innerHTML = "";
 
@@ -47,41 +61,45 @@ window.addEventListener("keypress", async (e) => {
     searchCity.blur();
 
     if (searchCity.textContent === "") {
-      console.log("No city name");
+      console.log("No city name.");
       return;
     }
 
-    changeCurrent(searchCity.textContent);
-    searchCity.textContent = "";
+    try {
+      getWeatherByName(searchCity.textContent);
+      searchCity.textContent = "";
+    } catch (err) {
+      console.error(err);
+    }
   }
 });
 
 // save city in local storage
 add.addEventListener("click", (e) => {
   if (city.textContent === "") {
-    console.log("No city name");
+    console.log("No city name.");
     return;
   }
 
   if (savedCity.length > 0) {
     if (savedCity.length >= 10) {
-      console.log("All slots occupied");
-      error("All slots occupied");
+      console.log("All slots occupied.");
+      error("All slots occupied.");
       return;
     }
 
     for (let i = 0; i < savedCity.length; i++) {
-      if (savedCity[i] === city.textContent) {
-        console.log("City already saved");
-        error("City already saved");
+      if (savedCity[i] === currentCityId) {
+        console.log("City already saved.");
+        error("City already saved.");
         return;
       }
     }
   }
 
-  savedCity.push(city.textContent);
+  savedCity.push(currentCityId);
 
-  localStorage.setItem("city", JSON.stringify(savedCity));
+  localStorage.setItem("cities", JSON.stringify(savedCity));
 
   console.log("City saved: " + city.textContent);
   console.log("Saved: " + savedCity.length);
@@ -94,11 +112,11 @@ format.addEventListener("click", (e) => {
   localStorage.clear();
   loadSaved();
   saved.innerHTML = "";
-  console.log("Local storage cleared. Length: " + savedCity.length);
+  console.log("Local storage cleared.");
 });
 
 // error notification
-async function error(message) {
+function error(message) {
   err.innerHTML = "";
 
   const p = document.createElement("p");
@@ -113,26 +131,28 @@ async function error(message) {
 }
 
 // delete city from local storage
-async function remove(cityName) {
-  const index = savedCity.indexOf(cityName);
-  console.log(index);
+function remove(_cityId) {
+  const index = savedCity.indexOf(_cityId);
 
   if (index > -1) {
     savedCity.splice(index, 1);
-    console.log("Delete");
-    localStorage.setItem("city", JSON.stringify(savedCity));
+    console.log("Deleted");
+    localStorage.setItem("cities", JSON.stringify(savedCity));
     loadSaved();
   }
 }
 
 // download weather data by city name
-async function getWeather(cityName) {
-  const { city, list } = await fetch(
+function getWeatherByName(_cityName) {
+  const url =
     "https://api.openweathermap.org/data/2.5/forecast?q=" +
-      cityName +
-      "&cnt=6&mode=json&units=metric&appid=e56ebc4991608107818d622503afefbe",
-    { method: "GET" }
-  )
+    _cityName +
+    "&cnt=6&mode=json&lang=" +
+    language +
+    "&units=metric&appid=" +
+    API_KEY;
+
+  fetch(url, { method: "GET" })
     .then((res) => {
       if (res.ok) {
         return res.json();
@@ -141,23 +161,79 @@ async function getWeather(cityName) {
         throw new Error("City not found");
       }
     })
+    .then((data) => {
+      changeCurrent(data.city, data.list);
+    })
     .catch((err) => console.log(err));
+}
 
-  return {
-    name: city.name,
-    list: list,
-  };
+async function getWeatherById(_cityId) {
+  const url =
+    "https://api.openweathermap.org/data/2.5/forecast?id=" +
+    _cityId +
+    "&cnt=6&mode=json&lang=" +
+    language +
+    "&units=metric&appid=" +
+    API_KEY;
+
+  const { city, list } = await fetch(url, { method: "GET" })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        error("City not found");
+        throw new Error("City not found");
+      }
+    })
+    .catch((err) => console.error(err));
+
+  return { city, list };
+}
+
+// download weather data by current location
+function getWeatherByLocation() {
+  function successCallback(_position) {
+    const url =
+      "https://api.openweathermap.org/data/2.5/forecast?lat=" +
+      _position.coords.latitude +
+      "&lon=" +
+      _position.coords.longitude +
+      "&cnt=6&mode=json&lang=" +
+      language +
+      "&units=metric&appid=" +
+      API_KEY;
+
+    fetch(url, { method: "GET" })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          error("City not found");
+          throw new Error("City not found");
+        }
+      })
+      .then((data) => {
+        changeCurrent(data.city, data.list);
+      })
+      .catch((err) => console.error(err));
+  }
+
+  function errorCallback(err) {
+    console.error(err);
+  }
+
+  navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
 }
 
 // change the current weather
-async function changeCurrent(cityName) {
-  const { name, list } = await getWeather(cityName);
+function changeCurrent(_city, _list) {
+  currentCityId = _city.id;
 
-  city.textContent = name;
-  temp.textContent = list[0].main.temp.toFixed(0) + "°";
-  desc.textContent = list[0].weather[0].description;
-  tempMin.textContent = "↓ " + list[0].main.temp_min.toFixed(0) + "°";
-  tempMax.textContent = "↑ " + list[0].main.temp_max.toFixed(0) + "°";
+  city.textContent = _city.name;
+  temp.textContent = _list[0].main.temp.toFixed(0) + "°";
+  desc.textContent = _list[0].weather[0].description;
+  tempMin.textContent = "↓ " + _list[0].main.temp_min.toFixed(0) + "°";
+  tempMax.textContent = "↑ " + _list[0].main.temp_max.toFixed(0) + "°";
 
   hoursBox.innerHTML = "";
 
@@ -176,18 +252,19 @@ async function changeCurrent(cityName) {
     box.appendChild(hour);
 
     const img = document.createElement("img");
-    img.src = `https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${list[i].weather[0].icon}.svg`;
+    img.src = `https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${_list[i].weather[0].icon}.svg`;
     box.appendChild(img);
 
     const temp = document.createElement("p");
-    temp.textContent = list[i].main.temp.toFixed(0) + "°";
+    temp.textContent = _list[i].main.temp.toFixed(0) + "°";
     box.appendChild(temp);
   }
 }
 
 // render saved cities
-async function renderCity(cityName) {
-  const { name, list } = await getWeather(cityName);
+async function renderCity(_cityId) {
+  const id = _cityId;
+  const { city, list } = await getWeatherById(id);
 
   const cityContainer = document.createElement("div");
   cityContainer.classList.add("saved", "bgc");
@@ -196,7 +273,7 @@ async function renderCity(cityName) {
   // change current city
   cityContainer.addEventListener("click", (e) => {
     localStorage.setItem("pin", JSON.stringify(name));
-    changeCurrent(name);
+    changeCurrent(city, list);
   });
 
   const del = document.createElement("div");
@@ -210,7 +287,7 @@ async function renderCity(cityName) {
   // delete city
   delImg.addEventListener("click", (e) => {
     e.stopPropagation();
-    remove(name);
+    remove(id);
     cityContainer.remove();
   });
 
@@ -220,7 +297,7 @@ async function renderCity(cityName) {
 
   const cityNameBox = document.createElement("div");
   cityNameBox.classList.add("city");
-  cityNameBox.textContent = name;
+  cityNameBox.textContent = city.name;
   box.appendChild(cityNameBox);
 
   const cityTemp = document.createElement("div");
@@ -237,4 +314,4 @@ async function renderCity(cityName) {
   cityImgBox.appendChild(img);
 }
 
-// e56ebc4991608107818d622503afefbe
+// TODO refresh button
