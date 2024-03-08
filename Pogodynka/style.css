@@ -59,12 +59,15 @@ body {
   0% {
     left: -170px;
   }
+
   20% {
     left: 10px;
   }
+
   80% {
     left: 10px;
   }
+
   100% {
     left: -170px;
   }
@@ -77,18 +80,61 @@ body {
   background-color: rgb(180, 0, 0);
 }
 
-.format {
+/* * debug function */
+.debug {
   position: fixed;
   bottom: 20px;
   right: 20px;
+  height: fit-content;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.debug-item {
   height: 35px;
   width: 35px;
-  border-radius: 30%;
-  background-color: rgba(205, 0, 0, 0.658);
+  border-radius: 9px;
   display: flex;
   justify-content: center;
   align-items: center;
   transition: 200ms;
+}
+
+.api-btn {
+  background-color: rgba(0, 0, 0, 0.3);
+  height: 100%;
+  width: 100%;
+  border-radius: 9px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.api-btn:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.api-input {
+  position: absolute;
+  height: 35px;
+  min-width: 100px;
+  padding: 0 10px 0 10px;
+  display: flex;
+  justify-self: center;
+  align-items: center;
+  border-radius: 9px;
+  right: 40px;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.api-input:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.format {
+  background-color: rgba(205, 0, 0, 0.658);
 }
 
 .format:hover {
@@ -261,7 +307,7 @@ main .hours {
   background-color: rgba(0, 0, 0, 0.45);
 }
 
-.saved:hover > .savedDel {
+.saved:hover>.savedDel {
   opacity: 1;
 }
 

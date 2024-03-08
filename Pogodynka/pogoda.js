@@ -1,6 +1,7 @@
 //in
 const searchCity = document.querySelector("[data-search]");
 const add = document.querySelector("[data-add]");
+const api = document.querySelector("[data-api]");
 const format = document.querySelector("[data-format]");
 const saved = document.querySelector("[data-saved]");
 const err = document.querySelector("[data-err]");
@@ -104,6 +105,10 @@ add.addEventListener("click", (e) => {
   console.log("City saved: " + city.textContent);
   console.log("Saved: " + savedCity.length);
   loadSaved();
+});
+
+api.addEventListener("click", (e) => {
+  alert("hi");
 });
 
 // delete all storage data

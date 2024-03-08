@@ -40,8 +40,23 @@
       </main>
       <nav class="savedContainer box gbc" data-saved></nav>
     </div>
-    <div class="format" data-format>
-      <img src="./icons/delete.svg" />
+    <div class="debug">
+      <div class="debug-item">
+        <div class="api-btn" data-api>
+          <img src="./icons/api_key.svg" />
+        </div>
+        <div
+          class="api-input api-input-animated"
+          contenteditable="true"
+          aria-multiline="false"
+          placeholder="Api Key"
+          class="api-input"
+          data-api_input
+        ></div>
+      </div>
+      <div class="debug-item format" data-format>
+        <img src="./icons/delete.svg" />
+      </div>
     </div>
     <script src="pogoda.js"></script>
   </body>
